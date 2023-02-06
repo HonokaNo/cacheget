@@ -50,7 +50,7 @@ func CacheGet(url string) ([]byte, int, error) {
 }
 
 // serialize etag cache
-func SerializeCache() (io.Writer, error) {
+func SerializeCache() (*bytes.Buffer, error) {
 	buf := bytes.NewBuffer(nil)
 	err := gob.NewEncoder(buf).Encode(&cachemap)
 	if err != nil {
@@ -64,11 +64,11 @@ func SerializeCache() (io.Writer, error) {
 	}
 
 	if _, err = zw.Write(buf.Bytes()); err != nil {
-		return zw, err
+		return nil, err
 	}
 
 	zw.Flush()
-	return zw, nil
+	return zbuf, nil
 }
 
 // deserialize cache
