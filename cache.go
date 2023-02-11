@@ -30,7 +30,7 @@ func CacheGet(url string) ([]byte, int, error) {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, res.StatusCode, err
+		return nil, 0, err
 	}
 
 	if res.StatusCode == 304 {
